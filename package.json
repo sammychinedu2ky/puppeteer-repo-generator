@@ -1,0 +1,22 @@
+{
+  "name": "repo_generator",
+  "version": "1.0.0",
+  "description": "This project uses puppeteer to generate a repository on github and prints out the link on the terminal for you to use.",
+  "main": "index.js",
+  "dependencies": {
+    "puppeteer": "^2.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "puppeteer"
+  ],
+  "author": "sammychinedu2ky",
+  "license": "ISC",
+  "bin": {
+    "repo-gen": "./index.js"
+  }
+}

@@ -11,6 +11,29 @@ try {
   throw ('ensure you input the username password and repo-name in the correct order')
 }
 
+const handle_otp = (page) => {
+  return new Promise((res => {
+    process.stdout.write('your otp is required \nplease input it below\n')
+    process.env.write = "true";
+
+    process.stdin.on('data', async (data) => {
+      if (process.env.write != 'false') {
+
+        await page.click(selectors.otp)
+
+        await page.keyboard.type(data.toString())
+        await page.waitFor(2000)
+        if (await page.evaluate((sel) => document.querySelector(sel), selectors.otp_error)) {
+          process.stdout.write('wrong otp, please try again\n')
+
+        } else {
+          process.env.write = "false"
+          res();
+        }
+      }
+    });
+  }));
+};
 
 (async () => {
 
@@ -33,30 +56,12 @@ try {
   await page.keyboard.type(selectors.password);
   await page.click(selectors.login_button);
   await page.waitFor(2000);
+  if (page.url() == selectors.sec_key_tfa_url) {
+    await page.goto(selectors.otp_tfa_url);
+    await handle_otp(page);
+  }
   if (page.url() == selectors.otp_url) {
-    await new Promise((res => {
-      process.stdout.write('your otp is required \nplease input it below\n')
-      process.env.write = "true";
-
-      process.stdin.on('data', async (data) => {
-        if (process.env.write != 'false') {
-
-          await page.click(selectors.otp)
-
-          await page.keyboard.type(data.toString())
-          await page.waitFor(2000)
-          if (await page.evaluate((sel) => document.querySelector(sel), selectors.otp_error)) {
-            process.stdout.write('wrong otp, please try again\n')
-
-          } else {
-            process.env.write = "false"
-            res();
-          }
-        }
-      })
-    }))
-
-
+    await handle_otp(page);
   }
 
   await page.waitFor(2000)

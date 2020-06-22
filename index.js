@@ -60,7 +60,7 @@ const handle_otp = (page) => {
     await page.goto(selectors.otp_tfa_url);
     await handle_otp(page);
   }
-  if (page.url() == selectors.otp_url) {
+  if (page.url() == selectors.otp_url || page.url() == selectors.otp_tfa_url) {
     await handle_otp(page);
   }
 

@@ -18,5 +18,8 @@
   "license": "ISC",
   "bin": {
     "repo-gen": "./index.js"
+  },
+  "publishConfig": { 
+    "registry": "https://npm.pkg.github.com/" 
   }
 }

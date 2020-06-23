@@ -1,6 +1,8 @@
 ## Repository Generator in node.js using puppeteer
 So this repository contains a node.js app that allows you to spin up headless chromium which helps you automate the process of creating a repository on github and at the end of the process it displays the link to your repo.
 
+It supports normal username,email and password authentication flow. Also, supports the use of OTP
+
 Assuming your repo name is 'peter22' and your password is 'freshjscoder' then to create a repo titled "myapp" follow these steps:- 
 
  - clone the repo
@@ -10,3 +12,5 @@ Assuming your repo name is 'peter22' and your password is 'freshjscoder' then to
  - wait for it to resolve printing out your repo name
  
 The npm install -g allows you to run this command from any directory.
+
+Thanks @Obumnwabude for the tfa notice and implementation.

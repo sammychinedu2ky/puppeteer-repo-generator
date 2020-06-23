@@ -11,9 +11,32 @@ try {
   throw ('ensure you input the username password and repo-name in the correct order')
 }
 
+const handle_otp = (page) => {
+  return new Promise((res => {
+    process.stdout.write('your otp is required \nplease input it below\n')
+    process.env.write = "true";
+
+    process.stdin.on('data', async (data) => {
+      if (process.env.write != 'false') {
+
+        await page.click(selectors.otp)
+
+        await page.keyboard.type(data.toString())
+        await page.waitFor(2000)
+        if (await page.evaluate((sel) => document.querySelector(sel), selectors.otp_error)) {
+          process.stdout.write('wrong otp, please try again\n')
+
+        } else {
+          process.env.write = "false"
+          res();
+        }
+      }
+    });
+  }));
+};
 
 (async () => {
-
+try {
   let username = process.argv[2] == undefined ? console.log('ensure that the username password and repo-name are inputed') || process.exit() : process.argv[2];
   let password = process.argv[3] == undefined ? console.log('ensure that the username password and repo-name are inputed') || process.exit() : process.argv[3];
   let repo_name = process.argv[4] == undefined ? console.log('ensure that the username password and repo-name are inputed') || process.exit() : process.argv[4]
@@ -26,6 +49,7 @@ try {
     headless: true
   });
   const page = await browser.newPage();
+ 
   await page.goto('https://github.com/new');
   await page.click(selectors.username_field);
   await page.keyboard.type(selectors.username);
@@ -33,30 +57,11 @@ try {
   await page.keyboard.type(selectors.password);
   await page.click(selectors.login_button);
   await page.waitFor(2000);
+  if (page.url() == selectors.sec_key_tfa_url) {
+       await handle_otp(page);
+  }
   if (page.url() == selectors.otp_url) {
-    await new Promise((res => {
-      process.stdout.write('your otp is required \nplease input it below\n')
-      process.env.write = "true";
-
-      process.stdin.on('data', async (data) => {
-        if (process.env.write != 'false') {
-
-          await page.click(selectors.otp)
-
-          await page.keyboard.type(data.toString())
-          await page.waitFor(2000)
-          if (await page.evaluate((sel) => document.querySelector(sel), selectors.otp_error)) {
-            process.stdout.write('wrong otp, please try again\n')
-
-          } else {
-            process.env.write = "false"
-            res();
-          }
-        }
-      })
-    }))
-
-
+    await handle_otp(page);
   }
 
   await page.waitFor(2000)
@@ -104,4 +109,9 @@ try {
   console.log(`The link to your repo is ${link}`)
   await browser.close();
   process.exit();
+} catch (error) {
+  console.log(error)
+  process.exit()
+}
+ 
 })();

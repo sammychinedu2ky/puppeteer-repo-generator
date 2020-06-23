@@ -1,6 +1,6 @@
 {
   "name": "repo_generator",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "This project uses puppeteer to generate a repository on github and prints out the link on the terminal for you to use.",
   "main": "index.js",
   "dependencies": {

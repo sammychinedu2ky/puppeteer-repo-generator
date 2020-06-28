@@ -1,6 +1,6 @@
 {
   "name": "repo_generator",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "This project uses puppeteer to generate a repository on github and prints out the link on the terminal for you to use.",
   "main": "index.js",
   "dependencies": {
@@ -12,7 +12,13 @@
     "start": "node index.js"
   },
   "keywords": [
-    "puppeteer"
+    "puppeteer",
+    "repo generator",
+    "cli repo generator",
+    "github repository generator",
+    "github",
+    "repository generator",
+    "cli tool"
   ],
   "author": "sammychinedu2ky",
   "license": "ISC",
